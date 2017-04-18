@@ -4,6 +4,7 @@
 __author__ = 'valentinarho'
 
 from HTMLParser import HTMLParser
+import re
 
 # create a subclass and override the handler methods
 class GuideParser(HTMLParser):
@@ -28,7 +29,7 @@ class GuideParser(HTMLParser):
         elif tag == 'a' and self.lesson_counter > 0:
             get_href = 0
             for name, value in attrs:
-                if name == 'id' and value == 'lesson' + str(self.lesson_counter):
+                if name == 'id' and re.match(r'lesson[0-9]+', value) is not None:
                     get_href = 1;
                 elif name == 'href' and get_href:
                     self.links.append(value);
